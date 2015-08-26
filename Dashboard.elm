@@ -19,8 +19,13 @@ type alias Model = CommitList
 
 init : Model
 init =
-    { commits = [(0, (Commit.init "test")), (1, (Commit.init "message thang")) ]
-    , nextID = 2
+    { commits = [  (0, (Commit.init "[SB] (WEB-3598) Break production"))
+                ,  (1, (Commit.init "[DL] (WEB-1234) Fix everything"))
+                ,  (2, (Commit.init "[DL] (WEB-2935) Some feature"))
+                ,  (3, (Commit.init "[DL] (WEB-4918) Erase track.js"))
+                ,  (4, (Commit.init "[DL] (WEB-1259) Ads things"))
+                ]
+    , nextID = 5
     }
 
 type Actions = Modify ID Commit.Action
