@@ -1,0 +1,161 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values)
+   return _elm.Main.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Main",
+   $Basics = Elm.Basics.make(_elm),
+   $Commit = Elm.Commit.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
+   var groupStyle = $Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                         ,_0: "display"
+                                                         ,_1: "inline-block"}
+                                                        ,{ctor: "_Tuple2"
+                                                         ,_0: "min-width"
+                                                         ,_1: "300px"}
+                                                        ,{ctor: "_Tuple2"
+                                                         ,_0: "vertical-align"
+                                                         ,_1: "top"}]));
+   var outerStyle = $Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                         ,_0: "margin"
+                                                         ,_1: "0 auto"}
+                                                        ,{ctor: "_Tuple2"
+                                                         ,_0: "width"
+                                                         ,_1: "600px"}]));
+   var title = function (name) {
+      return A2($Html.h2,
+      _L.fromArray([]),
+      _L.fromArray([$Html.text(name)]));
+   };
+   var commitIsWaiting = function (_v0) {
+      return function () {
+         switch (_v0.ctor)
+         {case "_Tuple2":
+            return _v0._1.confirmed;}
+         _U.badCase($moduleName,
+         "on line 39, column 31 to 47");
+      }();
+   };
+   var update = F2(function (action,
+   model) {
+      return function () {
+         switch (action.ctor)
+         {case "Modify":
+            return function () {
+                 var updateCommit = function (_v7) {
+                    return function () {
+                       switch (_v7.ctor)
+                       {case "_Tuple2":
+                          return _U.eq(_v7._0,
+                            action._0) ? {ctor: "_Tuple2"
+                                         ,_0: _v7._0
+                                         ,_1: A2($Commit.update,
+                                         action._1,
+                                         _v7._1)} : {ctor: "_Tuple2"
+                                                    ,_0: _v7._0
+                                                    ,_1: _v7._1};}
+                       _U.badCase($moduleName,
+                       "between lines 32 and 34");
+                    }();
+                 };
+                 return _U.replace([["commits"
+                                    ,A2($List.map,
+                                    updateCommit,
+                                    model.commits)]],
+                 model);
+              }();}
+         _U.badCase($moduleName,
+         "between lines 29 and 36");
+      }();
+   });
+   var Modify = F2(function (a,b) {
+      return {ctor: "Modify"
+             ,_0: a
+             ,_1: b};
+   });
+   var viewCommit = F2(function (address,
+   _v11) {
+      return function () {
+         switch (_v11.ctor)
+         {case "_Tuple2":
+            return A2($Commit.view,
+              A2($Signal.forwardTo,
+              address,
+              Modify(_v11._0)),
+              _v11._1);}
+         _U.badCase($moduleName,
+         "on line 56, column 5 to 61");
+      }();
+   });
+   var view = F2(function (address,
+   model) {
+      return function () {
+         var $ = A2($List.partition,
+         commitIsWaiting,
+         model.commits),
+         confirmed = $._0,
+         waiting = $._1;
+         var viewsForCommits = function (commits) {
+            return A2($List.map,
+            viewCommit(address),
+            commits);
+         };
+         return A2($Html.div,
+         _L.fromArray([outerStyle]),
+         _L.fromArray([A2($Html.div,
+                      _L.fromArray([groupStyle
+                                   ,$Html$Attributes.$class("waiting-qa")]),
+                      A2($List._op["::"],
+                      title("waiting"),
+                      viewsForCommits(waiting)))
+                      ,A2($Html.div,
+                      _L.fromArray([groupStyle
+                                   ,$Html$Attributes.$class("qa-confirmed")]),
+                      A2($List._op["::"],
+                      title("QA Confirmed"),
+                      viewsForCommits(confirmed)))]));
+      }();
+   });
+   var init = {_: {}
+              ,commits: _L.fromArray([{ctor: "_Tuple2"
+                                      ,_0: 0
+                                      ,_1: $Commit.init("test")}
+                                     ,{ctor: "_Tuple2"
+                                      ,_0: 1
+                                      ,_1: $Commit.init("message thang")}])
+              ,nextID: 2};
+   var CommitList = F2(function (a,
+   b) {
+      return {_: {}
+             ,commits: a
+             ,nextID: b};
+   });
+   var main = $StartApp$Simple.start({_: {}
+                                     ,model: init
+                                     ,update: update
+                                     ,view: view});
+   _elm.Main.values = {_op: _op
+                      ,main: main
+                      ,CommitList: CommitList
+                      ,init: init
+                      ,Modify: Modify
+                      ,update: update
+                      ,commitIsWaiting: commitIsWaiting
+                      ,view: view
+                      ,title: title
+                      ,viewCommit: viewCommit
+                      ,outerStyle: outerStyle
+                      ,groupStyle: groupStyle};
+   return _elm.Main.values;
+};
