@@ -49,8 +49,8 @@ view address model =
       (confirmed, waiting) = List.partition commitIsWaiting model.commits
   in
       div [ outerStyle ]
-        [ div [ groupStyle, class "waiting-qa" ] ((title "waiting") :: viewsForCommits waiting)
-        , div [ groupStyle, class "qa-confirmed" ] ((title "QA Confirmed") :: viewsForCommits confirmed)
+        [ div [ groupStyle "left", class "waiting-qa" ] ((title "waiting") :: viewsForCommits waiting)
+        , div [ groupStyle "right", class "qa-confirmed" ] ((title "QA Confirmed") :: viewsForCommits confirmed)
         ]
 
 title : String -> Html
@@ -64,11 +64,11 @@ outerStyle =
     style
       [ ("margin", "0 auto")
       , ("width", "600px")
+      , ("position", "relative")
       ]
 
-groupStyle =
+groupStyle alignment =
     style
-        [ ("display", "inline-block")
-        , ("min-width", "300px")
-        , ("vertical-align", "top")
+        [ ("position", "absolute")
+        , (alignment, "0")
         ]
